@@ -1,0 +1,18 @@
+.background-image {
+    background-image: url("/imgs/homepage.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 95vh;
+}
+
+#heading {
+    font-size: 4rem;
+    color: white;
+    padding-top: 25%;
+}
+
+#action {
+    font-size: 2rem;
+    color: white;
+
+}

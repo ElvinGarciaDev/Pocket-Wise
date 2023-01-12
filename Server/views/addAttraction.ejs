@@ -1,0 +1,147 @@
+<%- include('partials/header') -%>
+<link rel="stylesheet" href="/css/addAttractions.css" />
+
+  <!--NAV BAR-->
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 ">
+    <div class="container">
+        <a href="/" class="navbar-brand">Discover</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu"><span class="navbar-toggler-icon"></span></button>
+
+        <div class="collapse navbar-collapse" id="navmenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="profile" class="nav-link">Pending attractions</a>
+                </li>
+                <li class="nav-item">
+                    <a href="completedAttractions" class="nav-link">Completed attractions</a>
+                </li>
+                <li class="nav-item">
+                  <a href="searchAttraction" class="nav-link">Search for attraction</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/logout" class="nav-link">Log out</a>
+              </li>
+            </ul>
+        </div>
+    </div>
+  </nav>
+
+  <!--BackGround img and form-->
+  <div id="booking" class="section" >
+    <div class="section-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7 col-md-push-5">
+            <div class="booking-cta">
+              <h1 id="headingLead">Add An Attraction</h1>
+              <p>Nobody knows the city better the the people who actually live in it, know an attraction you might think others will enjoy? add it to our collection so others can interact with it.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 col-md-pull-7">
+            <div class="booking-form">
+              <form action="/localUpload/createPost" enctype="multipart/form-data" method="POST">
+                <div class="form-group">
+                  <span class="form-label">Attraction Name</span>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Enter a name for your attraction" required>
+                </div>
+                <div class="row">
+                  <div class="mb-1">
+                    <div class="form-group">
+                      <span for="address" class="form-label">Address</span>
+                      <textarea class="form-control" id="address" name="address" placeholder="e.g. 200 Technology Square" required></textarea>
+                    </div>
+                  </div>
+                  <div class="mb-1">
+                    <div class="form-group">
+                      <span for="imgUpload" class="form-label">Upload Image</span>
+                      <input type="file" class="form-control" id="imageUpload" name="file" required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="mb-1">
+                    <div class="form-group">
+                      <span for="description" class="form-label">Description</span>
+                      <textarea class="form-control" id="description" name="description" placeholder="Enter a description for your attraction" required></textarea>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group">
+                      <span for="zipcode" class="form-label">Zip code</span>
+                      <input class="form-control" id="zipcode" name="zipcode" placeholder="Zip code" required>
+        
+                    </div>
+                  </div>
+                </div>
+                <div class="form-btn">
+                  <button class="submit-btn" type="submit" value="Upload">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!--Attractions you've added-->
+    <!--If there the logged in user has not created any attractions, let the user know they can create attractions for others to interact with-->
+    <% if (local.length == 0) { %>
+      <section class="pt-4">
+        <div class="container">
+          <h1 class="pt-2 text-center">You have not created any attractions</h1>
+          <span class="pt-2 pb-3 text-center d-block">Know of any attractions in your area? Add them to our database so others can interact with it. </span>
+        </div>
+      </section>
+
+      <%} else { %>
+
+
+         <!-- Else, display the attractions the user has created/submitted to the database-->
+
+         <section class="orderDisplay p-0">
+          <div class="container">
+            <div class="row text-center g-0">
+      
+              <h1 class="pt-4">Attractions created</h1>
+              <span class="pt-3 pb-3 text-center d-block">Attractions you've created will be displayed here. Feel free to edit any fields on your attractions.</span>
+      
+              <% for(let i = 0; i < local.length; i++) {%>
+      
+                  <div class="card" style="width: 35rem;">
+                    <img src=<%= local[i].image %> class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title"><%= local[i].Attraction %></h5>
+                      <p class="card-text"><%= local[i].Address %></p>
+                      <p class="card-text"><%= local[i].Description %></p>
+
+
+
+                      <!--Button that takes user to this specific attraction they've uploaded. Here they'll be able to update the attraction-->
+                      <a href="/localUpload/<%= local[i]._id%>"> <button class="btn btn-primary" type="button"><i class="bi bi-pencil"></i>Update</button></a>
+
+
+                      <!--Using method override to send a delete request to the server. User can delete any attractions they've uploaded-->
+                      <form
+                      class="mt-2"
+                        action="/localUpload/<%= local[i]._id%>?_method=DELETE"
+                        method="POST"
+                      >
+                        <button class="btn btn-primary btnDelete" type="submit"><i class="bi bi-trash"></i>Delete</button>
+                      </form>
+
+                    </div>
+                  </div>
+
+            <% } %>
+
+            </div>
+          </div>
+        </section>
+
+      <% } %>
+
+    
+<%- include('partials/footer') -%>

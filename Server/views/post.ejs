@@ -1,0 +1,124 @@
+<%- include('partials/header') -%>
+<link
+href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
+rel="stylesheet"
+/>
+
+<link rel="stylesheet" href="/css/map.css" />
+
+
+      <!--NAV BAR-->
+      <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 ">
+        <div class="container">
+          <a href="/" class="navbar-brand">Discover</a>
+    
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu"><span class="navbar-toggler-icon"></span></button>
+    
+            <div class="collapse navbar-collapse" id="navmenu">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a href="/profile" class="nav-link">Pending attractions</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/completedAttractions" class="nav-link">Completed attractions</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/searchAttraction" class="nav-link">Search for attraction</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/addAttraction" class="nav-link">Add attraction</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/logout" class="nav-link">Log out</a>
+              </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--Section with Attraction photo and map-->
+    <div class="container">
+      <div class="row  mt-5">
+
+        <div class="col-md">
+
+          <img class="img-fluid" src="<%= post.image%>">
+
+          <div class="row justify-content-between">
+
+            <%# IF the Review property in MongoDB is empty and the Complete Property is set to true, it means the user completed the attraction and needs to give it a review %>
+            <% if (post.Review == "" && post.Complete == 'true') { %>
+              
+              <form action="/post/reviewAttraction/<%= post.id %>?_method=PUT" method="POST"> 
+                <select class="form-select " name="star">
+                  <option selected>Review Attration</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                  <option value="4">Four</option>
+                  <option value="5">Five</option>
+                </select>
+
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="review" placeholder="Give the Attraction a review"></textarea>
+                <button class="btn btn-primary " type="submit">Submitt Review</button>
+              </form>
+              <% } %>
+
+          <%# If the Complete property in MongoDB is false, allow the user the option to click the checkmark and mark it as complete. This option only shows up when an attraction is not completed  %>
+          <%  if (post.Complete == 'false') { %>
+              <form
+              class="col-3 mt-2"
+              action="/post/completeAttraction/<%= post.id %>?_method=PUT"
+              method="POST"
+              >
+              <button class="btn btn-primary " type="submit"><i class="bi bi-check-circle"></i></button>
+            </form>
+          <% } %>
+
+          <%# Always give the user the option to delete an attraction %>
+          <%if(post.user == user.id){ %>
+            <form
+            class="col-2 mt-2"
+              action="/post/deletePost/<%= post.id %>?_method=DELETE"
+              method="POST"
+            >
+              <button class="btn btn-primary btnDelete" type="submit"><i class="bi bi-trash"></i></button>
+            </form>
+            <%}%>
+
+          </div>
+
+        </div>
+
+        <!--Div to place the map in-->
+        <div class="col-md" >
+          <div id="map">
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <section class="container mt-5" id="address">
+      <h3>Attraction: <%= post.Attraction%></h3>
+      <p data-latitude=" <%= post.Latitude%>" data-longitude="<%= post.Longitude%>" >Address: <%= post.Address%></p>
+      <p class="w-50%">Description: <%= post.Description%></p>
+
+      <%# If the Review property in MongoDB is not empty it means that you have already completed the attraction and gave it a review. So we'll share that review here %>
+      <%  if (post.Review != '') { %>
+        <p class="w-50%">Review: <%= post.Review%></p>
+        <p class="w-50%">Rating: <%= post.Star%>/5</p>
+      <% } %>
+
+
+    </section>
+
+</div>
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+
+
+
+<script src="/js/map.js"></script>
+
+<%- include('partials/footer') -%>
