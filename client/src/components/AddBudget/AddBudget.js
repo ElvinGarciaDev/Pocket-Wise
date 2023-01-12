@@ -1,5 +1,7 @@
 import { useState } from "react";
-import Button from "./Button";
+import Button from "../Button";
+import './AddBudget.css'
+
 
 const AddBudget = ({}) => {
   // set the state of the input we need. By default the state should be empty
@@ -12,9 +14,9 @@ const AddBudget = ({}) => {
   }
 
   return (
-    <div className="continer pt-5">
+    <div className="continer pt-5 flex">
       <form action="">
-        <div className="card" style={{ width: "25rem", margin: "2px auto" }}>
+        <div className="card" style={{ width: "25rem"}}>
           <div className="card-body">
             <h5 class="card-title">Budget</h5>
 
@@ -29,6 +31,8 @@ const AddBudget = ({}) => {
             <Button btnType={"submit"} text={"Update Budget"} color={"btn btn-primary mt-2"} />
           </div>
         </div>
+
+        
       </form>
     </div>
   );
