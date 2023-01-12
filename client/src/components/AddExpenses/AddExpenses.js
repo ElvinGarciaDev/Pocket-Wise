@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../Button";
 
-const AddExpenses = ({}) => {
+const AddExpenses = ({onAdd}) => {
   // State for title product
   const [title, setTitle] = useState("");
 
@@ -17,12 +17,18 @@ const AddExpenses = ({}) => {
   // Update the price input
   function handlePriceChange(e) {
     // set the state with what ever is on the input
-    setTitle(e.target.value);
+    setPrice(e.target.value);
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    onAdd({title, price})
   }
 
   return (
     <div className="continer pt-5 flex">
-      <form action="">
+      <form action="" onSubmit={onSubmit}>
         <div className="card" style={{ width: "25rem", height: "100%" }}>
           <div className="card-body">
             <h5 class="card-title">Expense</h5>
@@ -30,7 +36,6 @@ const AddExpenses = ({}) => {
             <input
               type="text"
               className="form-control"
-              id="exampleFormControlInput1"
               placeholder="Enter Item bought"
               value={title}
               onChange={handleTitleChange}
@@ -39,7 +44,6 @@ const AddExpenses = ({}) => {
             <input
               type="number"
               className="form-control mt-3"
-              id="exampleFormControlInput2"
               placeholder="Enter Item Price"
               value={price}
               onChange={handlePriceChange}
