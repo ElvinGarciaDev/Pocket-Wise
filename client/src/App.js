@@ -39,6 +39,7 @@ function App() {
       </div>
 
       <div className='expenseDiv'>
+        <h1>Expense List</h1>
         <Expenses tasks={task}/>
       </div>
 

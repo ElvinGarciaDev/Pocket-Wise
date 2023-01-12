@@ -5,9 +5,16 @@
   gap: 100px;
   flex-wrap: wrap;
 
-
 }
 
 .expenseDiv {
-  border: 1px solid black;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  box-shadow: 0px 0px 5px gray;
+  margin-top: 25px;
+}
+.expenseDiv > h1 {
+  text-align: center;
+  padding-bottom: 5px;
 }
