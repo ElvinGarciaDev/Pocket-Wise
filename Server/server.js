@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose"); // Handle interaction with out database.
-const passport = require("passport"); // For handleing autothac
+const passport = require("passport/lib"); // For handleing autothac
 const session = require("express-session"); // Enable us to stay logged in
 const MongoStore = require("connect-mongo")(session); // Enable us to stay logged in. Someone can close their browser, come back and stay logged in
 const methodOverride = require("method-override"); // So we don't have to use client side javascript
