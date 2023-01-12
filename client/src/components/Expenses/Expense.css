@@ -1,0 +1,25 @@
+.singleExpense {
+    border: 1px solid red;
+    font-size: 1.5rem;
+}
+
+.singleExpense > ul {
+    display: flex;
+    list-style: none;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.nav-item {
+    margin-right: 2rem;
+}
+
+.nav-item:first-child{
+    margin-right: auto;
+}
+
+.price {
+    border: 1px solid red;
+    margin-right: 45%;
+
+}

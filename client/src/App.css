@@ -8,7 +8,6 @@
 
 }
 
-/* .flex > div {
-  border: 1px solid red;
-
-} */
+.expenseDiv {
+  border: 1px solid black;
+}

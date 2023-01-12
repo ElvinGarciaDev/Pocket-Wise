@@ -14,9 +14,9 @@ const AddBudget = ({}) => {
   }
 
   return (
-    <div className="continer pt-5 flex">
+    <div className="continer pt-5 flex" >
       <form action="">
-        <div className="card" style={{ width: "25rem"}}>
+        <div className="card" style={{ width: "25rem", height: "250px"}}>
           <div className="card-body">
             <h5 class="card-title">Budget</h5>
 
