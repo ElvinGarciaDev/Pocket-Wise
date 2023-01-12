@@ -32,13 +32,13 @@ function App() {
   // When someone adds a new expense to the database
   const addExpense = async (expense) => {
     console.log(expense)
-    // const res = await fetch("https://localhost:8000/expense", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(expense),
-    // })
+    const res = await fetch("/expense", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(expense),
+    })
   }
 
   return (

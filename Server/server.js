@@ -14,6 +14,8 @@ const postRoutes = require("./routes/posts");
 const bookmarkAttractionRoutes = require("./routes/bookmarkAttraction") // Bring in the routes comments
 const localUploadRoutes = require("./routes/localUpload") // Bring in the routes comments
 
+// Bring in the expense model
+const expenseModel = require("./models/localUpload");
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -57,11 +59,27 @@ app.use(passport.session());
 //Use flash messages for errors, info, ect...
 app.use(flash());
 
-//Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes); // If any '/' route come in. Use the mainRoutes file
-app.use("/post", postRoutes); // If any /post routes come in. Use the postRoutes. When user is viewing a specific bookmarked attraction
-app.use("/bookmarkAttraction", bookmarkAttractionRoutes) // For any routes that use the /bookmarkAttraction go to this router. When a user is searching for attractions or bookmarks an attraction
-app.use("/localUpload", localUploadRoutes) //Users can create/upload any attractions.
+// //Setup Routes For Which The Server Is Listening
+// app.use("/", mainRoutes); // If any '/' route come in. Use the mainRoutes file
+// app.use("/post", postRoutes); // If any /post routes come in. Use the postRoutes. When user is viewing a specific bookmarked attraction
+// app.use("/bookmarkAttraction", bookmarkAttractionRoutes) // For any routes that use the /bookmarkAttraction go to this router. When a user is searching for attractions or bookmarks an attraction
+// app.use("/localUpload", localUploadRoutes) //Users can create/upload any attractions.
+
+app.post("/expense", async (req, res) => {
+  console.log(req.body)
+
+  try {
+    await expenseModel.create({
+      item: req.body.title,
+      price: Number(req.body.price)
+    })
+    res.send("data added to database")
+
+
+  } catch (error) {
+    
+  }
+})
 
 //Server Running
 app.listen(process.env.PORT, () => {
