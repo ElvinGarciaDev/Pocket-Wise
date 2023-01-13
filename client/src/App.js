@@ -12,7 +12,7 @@ function App() {
   const [data, setData] = useState([]);
 
   // Store the budget the user saved to the database
-  const [budget, setBudget] = useState()
+  const [budget, setBudget] = useState([])
 
   // Store the balance. AT the start set the balance to the total budget
   const [balance, setBalance] = useState()
@@ -44,26 +44,11 @@ function App() {
       //   { _id: 63c0c52d2c41d334914337e2, budget: 500, __v: 0 },
       //   { allExpenses: 150 }
       // ]
-    
-      // Should hold all the expenses
-      // let expenses = data.pop() // Pop the last element which should hold the expenses added up
+  
 
-      // Create an array and add the poped element from above which should hold the expenses added up
-      // let arrExpense = []
-      // arrExpense.push(expenses)
-
-      // pop the last element which should be the one that had the budget
-      let budget = data.pop() // remove the budget element
-      let arrBudget = []
-      arrBudget.push(budget)
-      // Use the setBudget method to add the budget number to the budget state. Ex: 500
-      setBudget(arrBudget[0].budget)
-
-      // Add the biggingn set the balance to the same as the budget
-      setBalance(arrBudget[0].budget)
-
-      // Now the only thing that should be in the data array are the item expenses
-      setData(data);
+      // use the set methods to set the state for the expenses and budget
+      setData(data.data);
+      setBudget(data.budgetData)
 
     }
     fetchData();
@@ -125,20 +110,43 @@ function App() {
       setBudget([budget]);
     };
 
+    // if the user wants to update the budget
+    const updateBudget = async (num) => {
+      let id = budget[0]._id
+
+      const res = await fetch(`/budget/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(num),
+      });
+  
+      const updatedBudget = await res.json();
+      // Budget should be an object. We need to store is in an array so we can set it as the state for budget
+      let arr = []
+      arr.push(updatedBudget)
+      // The new budget that was added will be sent back.
+      // We need to set the new budget. So take the current budget state and add the new element added (data)
+      setBudget(arr);
+    }
+
   return (
     <div>
       <Header title={"Pocket Wise"} userName={"Elvin"} budget={budget} />
 
       <div className="flex">
-        
-        {budget == undefined ? (<AddBudget onAdd={addBudget} innerText={"Enter budget"} />) : (<AddBudget innerText={"Update budget"}/>)}
+        {/* We want to have a form that can work for creating a budget for a new user and for also updating the budget if they alreday have a budget
+            what I did was use a conditial. if the budget state is empty, it means there is no budget in the database so have the form call a POST
+            request when submitted. Else there is a budget, so if the user submitts this form, send a put request */}
+        {budget.length == 0 ? (<AddBudget onAdd={addBudget} innerText={"Enter budget"} />) : (<AddBudget onAdd={updateBudget} innerText={"Update budget"}/>)}
         <AddExpenses onAdd={addExpense} />
       </div>
 
       <div>
       <ul>
         <li>Total Budget</li>
-        <li>{budget}</li>
+        <li>{budget.map((item) => item.budget)}</li>
       </ul>
 
       <ul>

@@ -70,14 +70,15 @@ app.use(flash());
 app.get("/api", async (req, res) => {
 
   try {
+    
+    // get all the expenses and budget from the database
     let data = await expenseModel.find({})
     let budgetData = await budgeteModel.find({})
 
     // let allExpenses = data.reduce((accumulator, current) => accumulator += current.price, 0)
 
-    let newD = data.concat(budgetData)
-    console.log(newD)
-    res.json(newD)
+    //we want to set the state for both the expenses and the budget on page load. 
+    res.json({data, budgetData})
     
   } catch (error) {
     
@@ -123,6 +124,29 @@ app.post("/budget", async (req, res) => {
       budget: Number(req.body.text)
     })
     res.json(budget)
+  } catch (error) {
+    
+  }
+
+})
+
+// When user wants to update the budget
+app.put("/budget/:id", async (req, res) => {
+  console.log("here", req.body)
+
+
+  try {
+
+    let budget = await budgeteModel.findOneAndUpdate({_id: req.params.id}, 
+      {
+        $set: { budget: Number(req.body.text)},
+      })
+
+      // not sure why budget returns the old budget. Why would it not return the new budget??
+      // We need the new budget to send back the react and update the budget state.
+      let updatedBudget = await budgeteModel.findById({_id: req.params.id})
+
+    res.json(updatedBudget)
   } catch (error) {
     
   }
