@@ -78,16 +78,28 @@ app.get("/api", async (req, res) => {
 })
 
 app.post("/expense", async (req, res) => {
-  console.log(req.body)
 
   try {
-    await expenseModel.create({
+    let newExpence = await expenseModel.create({
       title: req.body.title,
       price: Number(req.body.price)
     })
-    res.json(req.body)
+    res.json(newExpence)
 
 
+  } catch (error) {
+    
+  }
+})
+
+app.delete("/expense/:id", async (req, res) => {
+  try {
+
+    // Delete post from db
+    let deleteExpense = await expenseModel.deleteOne({ _id: req.params.id });
+    console.log(deleteExpense)
+
+    // res.json(deleteExpense)
   } catch (error) {
     
   }
