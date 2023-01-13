@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const AttractionSchema = new mongoose.Schema({
-  price: {
+  budget: {
     type: Number,
     required: true,
   },

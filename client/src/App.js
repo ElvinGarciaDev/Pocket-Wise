@@ -12,16 +12,28 @@ function App() {
   const [data, setData] = useState([]);
 
   // Store the budget the user saved to the database
-  const [budget, setBudget] = useState([])
+  const [budget, setBudget] = useState(0)
 
+  // Store the balance
+
+  // Fetch all expenses
   useEffect(() => {
     async function fetchData() {
       const res = await fetch("/api");
       const data = await res.json();
+    
+      let budgetDB = data.pop()
+
+      let arr = []
+      arr.push(budgetDB)
+
       setData(data);
+      setBudget(arr[0].budget)
+
     }
     fetchData();
   }, []);
+
 
   // When someone adds a new expense to the database
   const addExpense = async (expense) => {
@@ -70,7 +82,7 @@ function App() {
 
   return (
     <div>
-      <Header title={"Pocket Wise"} userName={"Elvin"} budget={"5000"} />
+      <Header title={"Pocket Wise"} userName={"Elvin"} budget={budget} />
 
       <div className="flex">
         
@@ -82,7 +94,9 @@ function App() {
         <h1>Expense List</h1>
         <Expenses tasks={data} onDelete={deleteExpense}/>
       </div>
+
     </div>
+
   );
 }
 

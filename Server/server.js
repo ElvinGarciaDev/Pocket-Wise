@@ -71,8 +71,10 @@ app.get("/api", async (req, res) => {
 
   try {
     let data = await expenseModel.find({})
-    console.log(data)
-    res.json(data)
+    let budgetData = await budgeteModel.find({})
+
+    let newD = data.concat(budgetData)
+    res.json(newD)
     
   } catch (error) {
     
@@ -108,7 +110,19 @@ app.delete("/expense/:id", async (req, res) => {
 })
 
 // Requests for budget
-app.post("/budget", (req, res))
+app.post("/budget", async (req, res) => {
+  console.log("here", req.body)
+
+  try {
+    let budget = await budgeteModel.create({
+      budget: Number(req.body.text)
+    })
+    res.json(budget)
+  } catch (error) {
+    
+  }
+
+})
 
 //Server Running
 app.listen(process.env.PORT, () => {
