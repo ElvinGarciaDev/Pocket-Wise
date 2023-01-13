@@ -16,6 +16,8 @@ const localUploadRoutes = require("./routes/localUpload") // Bring in the routes
 
 // Bring in the expense model
 const expenseModel = require("./models/localUpload");
+// bring in the budget model
+const budgeteModel = require("./models/BookmarkAttraction");
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -104,6 +106,9 @@ app.delete("/expense/:id", async (req, res) => {
     
   }
 })
+
+// Requests for budget
+app.post("/budget", (req, res))
 
 //Server Running
 app.listen(process.env.PORT, () => {
