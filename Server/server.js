@@ -73,7 +73,10 @@ app.get("/api", async (req, res) => {
     let data = await expenseModel.find({})
     let budgetData = await budgeteModel.find({})
 
+    // let allExpenses = data.reduce((accumulator, current) => accumulator += current.price, 0)
+
     let newD = data.concat(budgetData)
+    console.log(newD)
     res.json(newD)
     
   } catch (error) {
@@ -113,7 +116,9 @@ app.delete("/expense/:id", async (req, res) => {
 app.post("/budget", async (req, res) => {
   console.log("here", req.body)
 
+
   try {
+
     let budget = await budgeteModel.create({
       budget: Number(req.body.text)
     })
