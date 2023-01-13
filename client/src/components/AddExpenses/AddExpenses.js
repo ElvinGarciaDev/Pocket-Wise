@@ -31,7 +31,7 @@ const AddExpenses = ({onAdd}) => {
       <form action="" onSubmit={onSubmit}>
         <div className="card" style={{ width: "25rem", height: "100%" }}>
           <div className="card-body">
-            <h5 class="card-title">Expense</h5>
+            <h5 className="card-title">Expense</h5>
 
             <input
               type="text"
