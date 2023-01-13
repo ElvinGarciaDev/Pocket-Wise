@@ -18,7 +18,7 @@ const AddBudget = ({}) => {
       <form action="">
         <div className="card" style={{ width: "25rem", height: "250px"}}>
           <div className="card-body">
-            <h5 class="card-title">Budget</h5>
+            <h5 className="card-title">Budget</h5>
 
             <input
               type="text"

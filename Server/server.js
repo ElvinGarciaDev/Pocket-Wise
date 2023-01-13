@@ -65,15 +65,27 @@ app.use(flash());
 // app.use("/bookmarkAttraction", bookmarkAttractionRoutes) // For any routes that use the /bookmarkAttraction go to this router. When a user is searching for attractions or bookmarks an attraction
 // app.use("/localUpload", localUploadRoutes) //Users can create/upload any attractions.
 
+app.get("/api", async (req, res) => {
+
+  try {
+    let data = await expenseModel.find({})
+    console.log(data)
+    res.json(data)
+    
+  } catch (error) {
+    
+  }
+})
+
 app.post("/expense", async (req, res) => {
   console.log(req.body)
 
   try {
     await expenseModel.create({
-      item: req.body.title,
+      title: req.body.title,
       price: Number(req.body.price)
     })
-    res.send("data added to database")
+    res.json(req.body)
 
 
   } catch (error) {

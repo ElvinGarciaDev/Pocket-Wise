@@ -5,6 +5,7 @@ const Expenses = ({tasks}) => {
     <>
       {tasks.map((task) => (
         <Expense task={task}
+        key={task._id}
         /> // We're passing an object to the Task component
       ))}
     </>
