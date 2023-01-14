@@ -166,12 +166,22 @@ function App() {
         </ul>
       </div>
 
-      <div className="container expenseContainer">
+      {/* Only show the expense list if there are any expenses */}
+      {data.length != 0 && (
+        <div className="container expenseContainer">
+          <div className="expenseDiv">
+            <h1>Expense List</h1>
+            <Expenses tasks={data} onDelete={deleteExpense} />
+          </div>
+        </div>
+      )}
+
+      {/* <div className="container expenseContainer">
         <div className="expenseDiv">
           <h1>Expense List</h1>
           <Expenses tasks={data} onDelete={deleteExpense} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
