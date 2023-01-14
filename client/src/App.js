@@ -82,15 +82,18 @@ function App() {
   // When somone deletes an expense
   const deleteExpense = async (id) => {
 
+    // So we know what collection to target. The collection that has the budget and ID
+    let idBudget = budget[0]._id
+
     // Use setData to update the state. use the filter method to filter out the expense that was clicked
     setData(data.filter((expense) => expense._id !== id));
 
     const res = await fetch(`/expense/${id}`, {
       method: "DELETE",
-      // headers: {
-      //   "Content-type": "application/json",
-      // },
-      body: JSON.stringify(id),
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({idBudget}),
     });
 
     const dataServer = await res.json()
