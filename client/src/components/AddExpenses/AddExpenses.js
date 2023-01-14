@@ -24,6 +24,10 @@ const AddExpenses = ({onAdd}) => {
     e.preventDefault()
 
     onAdd({title, price})
+
+    // Empty the input in the state for both inputs
+    setTitle("")
+    setPrice("")
   }
 
   return (

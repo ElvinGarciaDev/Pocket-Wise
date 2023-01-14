@@ -166,7 +166,7 @@ function App() {
         </ul>
       </div>
 
-      <div className="container">
+      <div className="container expenseContainer">
         <div className="expenseDiv">
           <h1>Expense List</h1>
           <Expenses tasks={data} onDelete={deleteExpense} />
