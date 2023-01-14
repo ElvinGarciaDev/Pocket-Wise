@@ -146,17 +146,17 @@ function App() {
 
       <div className="container budget">
         <ul>
-          <div className="nav-item">
+          <div className="BudgetItem">
             <li>Total Budget</li>
             <li>{budget.map((item) => item.budget)}</li>
           </div>
 
-          <div className="nav-item second">
+          <div className="BalanceItem">
             <li>Balance</li>
             <li>{budget.map((item) => item.balance)}</li>
           </div>
 
-          <div className="nav-item">
+          <div className="ExpenseItem">
             <li>Expenses</li>
             <li>
               {budget.map((item) => item.budget) -

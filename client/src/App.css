@@ -2,7 +2,7 @@
   /* border: 1px solid blue; */
   display: flex;
   justify-content: center;
-  gap: 100px;
+  gap: 50px;
   flex-wrap: wrap;
 
 }
@@ -10,7 +10,6 @@
 .expenseDiv {
   padding-top: 15px;
   padding-bottom: 15px;
-
   box-shadow: 0px 0px 5px gray;
   margin-top: 25px;
   border-radius: 1rem;
@@ -27,6 +26,7 @@
   margin-top: 2rem;
   background: rgba(49, 109, 244, 1);
   border-radius: 1rem;
+
 }
 
 .budget ul {
@@ -34,4 +34,19 @@
   list-style: none;
   color: white;
   font-size: 1.5rem;
+  /* justify-content: center !important; */
+  justify-content: center;
 }
+
+.budget ul div {
+  width: 33.333%;
+}
+
+.BudgetItem, .BalanceItem, .ExpenseItem {
+  text-align: center;
+}
+/* 
+.balance {
+  justify-content: center !important;
+
+} */
