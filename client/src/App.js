@@ -14,10 +14,6 @@ function App() {
   // Store the budget the user saved to the database
   const [budget, setBudget] = useState([])
 
-  // Store the balance. AT the start set the balance to the total budget
-  const [balance, setBalance] = useState()
-
-
   // Fetch all expenses
   useEffect(() => {
     async function fetchData() {
@@ -160,6 +156,11 @@ function App() {
       <ul>
         <li>Balance</li>
         <li>{budget.map((item) => item.balance)}</li>
+      </ul>
+
+      <ul>
+        <li>Expenses</li>
+        <li>{budget.map((item) => item.budget) - budget.map((item) => item.balance)}</li>
       </ul>
 
       </div>
