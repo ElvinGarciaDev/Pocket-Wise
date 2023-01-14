@@ -58,7 +58,10 @@ function App() {
 
   // When someone adds a new expense to the database
   const addExpense = async (expense) => {
-    const res = await fetch("/expense", {
+
+    let id = budget[0]._id
+
+    const res = await fetch(`/expense/${id}`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -67,12 +70,13 @@ function App() {
     });
 
     const newExpense = await res.json();
+    console.log(newExpense, "heheh")
     // The new task that was added will be sent back.
     // We need to set the new task. So take the current tasks state and add the new element added (data)
-    setData([...data, newExpense]);
+    setData([...data, newExpense.newExpence]);
 
-    // Update the balance
-    setBalance(Number(balance) - Number(newExpense.price))
+    // Update the budget so that when someone adds a new expense, it updates the balance. the balance is done in the backend.
+    setBudget(newExpense.budgetData)
   };
 
   // When somone deletes an expense
@@ -80,22 +84,23 @@ function App() {
 
     // Use setData to update the state. use the filter method to filter out the expense that was clicked
     setData(data.filter((expense) => expense._id !== id));
-    
-    let findExpense = data.filter((expense) => expense._id == id)
-    // Update the balance
-    console.log("is this", findExpense)
-    setBalance(Number(balance) + Number(findExpense[0].price))
 
-    await fetch(`/expense/${id}`, {
+    const res = await fetch(`/expense/${id}`, {
       method: "DELETE",
+      // headers: {
+      //   "Content-type": "application/json",
+      // },
+      body: JSON.stringify(id),
     });
 
+    const dataServer = await res.json()
+    // Update the budget so that when someone adds a new expense, it updates the balance. the balance is done in the backend.
+    setBudget(dataServer.budgetData)
 
   };
 
     // Add budget
     const addBudget = async (expense) => {
-      console.log(expense)
       const res = await fetch("/budget", {
         method: "POST",
         headers: {
@@ -151,7 +156,7 @@ function App() {
 
       <ul>
         <li>Balance</li>
-        <li>{balance}</li>
+        <li>{budget.map((item) => item.balance)}</li>
       </ul>
 
       </div>

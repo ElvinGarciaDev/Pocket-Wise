@@ -85,14 +85,33 @@ app.get("/api", async (req, res) => {
   }
 })
 
-app.post("/expense", async (req, res) => {
+app.post(`/expense/:id`, async (req, res) => {
 
   try {
     let newExpence = await expenseModel.create({
       title: req.body.title,
       price: Number(req.body.price)
     })
-    res.json(newExpence)
+
+    // Get the current balance
+    let balance = await budgeteModel.findOne({_id: req.params.id})
+    
+    // Subtract the expense that was entered from the current balance
+    let newBalance = balance.balance - Number(req.body.price)
+    console.log(newBalance, "newBalance")
+
+    // Update the balance in the DB with the newBalance Varible
+    //We also need to update the balance. When somone adds a new expense. We need to detuct it from the balance
+    let budget = await budgeteModel.findOneAndUpdate({_id : req.params.id}, 
+      {
+        $set: { balance: newBalance},
+      })
+
+    // Get the current budget data. This includes the newest balance. We'll need it to update the budget state in react.
+    // When somone adds a new expense we'll need to update the balance. This is help us with that
+    let budgetData = await budgeteModel.find({})
+
+    res.json({newExpence, budgetData})
 
 
   } catch (error) {
@@ -103,9 +122,33 @@ app.post("/expense", async (req, res) => {
 app.delete("/expense/:id", async (req, res) => {
   try {
 
+    // Find the expense thay needs to be deleted. We'll need to find it so we can do the math and add it back to the balance. 
+    // If someone remvoes an expense. the balance needs to go up. 
+    let expense = await expenseModel.findOne({ _id: req.params.id })
+
+    // Get the current balance
+    let balance = await budgeteModel.findOne({_id: "63c201b5658d30527eb613fc"})
+
+    // add the expense that was removed back to the balance
+    let newBalance = balance.balance + expense.price
+
+     // Update the balance in the DB with the newBalance Varible
+    //We also need to update the balance. When somone adds a new expense. We need to detuct it from the balance
+    let budget = await budgeteModel.findOneAndUpdate({_id : "63c201b5658d30527eb613fc"}, 
+      {
+        $set: { balance: newBalance},
+      })
+
+
     // Delete post from db
     let deleteExpense = await expenseModel.deleteOne({ _id: req.params.id });
-    console.log(deleteExpense)
+
+    // Get the current budget data. This includes the newest balance. We'll need it to update the budget state in react.
+    // When somone deletes a expense we'll need to update the balance. This is help us with that
+    let budgetData = await budgeteModel.find({})
+    console.log(budgetData, "here")
+
+    res.json({budgetData})
 
     // res.json(deleteExpense)
   } catch (error) {
@@ -113,19 +156,20 @@ app.delete("/expense/:id", async (req, res) => {
   }
 })
 
-// Requests for budget
+// Requests for budget. When somone want's to create a budget
 app.post("/budget", async (req, res) => {
   console.log("here", req.body)
 
 
   try {
 
-    let budget = await budgeteModel.create({
-      budget: Number(req.body.text)
-    })
+    // Setting the budget using the budgetModel
+    // We also need to keep track of the balance. When somone first sbumits a budget. The balance should equal the same
+    let budget = await budgeteModel.create({budget: Number(req.body.text), balance: Number(req.body.text)})
+
     res.json(budget)
   } catch (error) {
-    
+    console.log(error)
   }
 
 })
