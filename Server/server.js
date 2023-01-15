@@ -167,13 +167,23 @@ app.post("/budget", async (req, res) => {
 
 // When user wants to update the budget
 app.put("/budget/:id", async (req, res) => {
-  console.log("here", req.body);
 
   try {
+
+      // Get all the expenses. We need to do some math, so that when the budget is updated so is the balance.
+      let expenses = await expenseModel.find({})
+
+      // expenses is an array that contains objs of each document in the expense collection
+      // We need to loop through it and find the sum of the expenses
+      let totalExpenses = expenses.reduce((accumulator, current) => accumulator + current.price, 0)
+
+      // Subtract the current expenses from the new budget the user sent via req.body
+      newBalance = Number(req.body.text) - totalExpenses // This holds the new balance
+
     let budget = await budgeteModel.findOneAndUpdate(
       { _id: req.params.id },
       {
-        $set: { budget: Number(req.body.text) },
+        $set: { budget: Number(req.body.text), balance: newBalance  }, // Update the budget and the balance
       }
     );
 
