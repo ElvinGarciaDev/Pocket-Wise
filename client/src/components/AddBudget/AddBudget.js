@@ -18,6 +18,9 @@ const AddBudget = ({innerText, onAdd}) => {
     e.preventDefault()
 
     onAdd({text})
+
+    // Empty the input field
+    setText("")
   }
 
   return (
