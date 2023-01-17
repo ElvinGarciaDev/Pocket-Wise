@@ -1,6 +1,5 @@
 .singleExpense {
     font-size: 1.5rem;
-    /* border: 1px solid red; */
     width: 90%;
     margin: 5px auto;
 }
@@ -12,7 +11,6 @@
     align-items: center;
     border-left: 5px solid rgba(180, 54, 40, 1);
     ;
-    /* margin: 10px auto; */
 }
 
 .nav-item {
