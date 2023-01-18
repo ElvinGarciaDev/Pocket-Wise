@@ -20,26 +20,6 @@ function App() {
       const res = await fetch("/api");
       const data = await res.json();
 
-      // the data we are getting looks like this. it's a big array that has all ther data, expenes, budget and a callculation
-      // Of all the expenses. We need to break up the array and store specific data at different state variables
-      // [
-      //   {
-      //     _id: 63c0d1cb2f1721388f151770,
-      //     title: 'car',
-      //     price: 100,
-      //     createdAt: 2023-01-13T03:36:43.770Z,
-      //     __v: 0
-      //   },
-      //   {
-      //     _id: 63c0d1db2f1721388f151772,
-      //     title: 'hotel',
-      //     price: 50,
-      //     createdAt: 2023-01-13T03:36:59.797Z,
-      //     __v: 0
-      //   },
-      //   { _id: 63c0c52d2c41d334914337e2, budget: 500, __v: 0 },
-      //   { allExpenses: 150 }
-      // ]
 
       // use the set methods to set the state for the expenses and budget
       setData(data.data);
