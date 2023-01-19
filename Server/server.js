@@ -199,3 +199,5 @@ app.put("/budget/:id", async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log("Server is running, you better catch it!");
 });
+
+// Need to place routes in correct controllers
