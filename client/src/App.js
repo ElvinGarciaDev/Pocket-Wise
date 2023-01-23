@@ -147,7 +147,7 @@ function App() {
       </div>
 
       {/* Only show the expense list if there are any expenses */}
-      {data.length != 0 && (
+      {data.length != 0  (
         <div className="container expenseContainer">
           <div className="expenseDiv">
             <h1>Expense List</h1>
